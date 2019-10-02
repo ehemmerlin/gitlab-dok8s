@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/ehemmerlin/gitlab-dok8s/raw/master/images/logo.jpg" width="882" alt="GitLab stages">
   <p align="center">
-    <strong>For full documentation, visit <a href="#">this Medium post</a>.</strong>
+    <strong>For full documentation, visit <a href="https://medium.com/@erichemmerlin/gitlab-auto-devops-on-digitalocean-kubernetes-cluster-f8b744b1e64c">this Medium post</a>.</strong>
   </p>
   <p align="center">
     <a href="https://github.com/ehemmerlin/gitlab-dok8s/actions"><img src="https://github.com/ehemmerlin/gitlab-dok8s/workflows/Build/badge.svg" alt="Build Status"></a> 
