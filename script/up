@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+DEBUG=${DEBUG:-}
+if [ ! -z "${DEBUG}" ]; then
+    set -x
+fi
+TEST=${TEST:-}
+NAMESPACE=${NAMESPACE:-gitlab-demo}
+set -euo pipefail
+mkdir -p tmp
+
+# Grab the cluster name with a default of "hpa-demo".
+CLUSTER_NAME=${1:-gitlab-demo}
+
+# Create the cluster or use the existing.
+script/create-cluster ${CLUSTER_NAME}
+
+# Grab the cluster kubeconfig.
+export KUBECONFIG="tmp/${CLUSTER_NAME}-kubeconfig.yaml"
+
+# Get the API_URL
+API_URL="$(kubectl cluster-info | grep 'Kubernetes master' | awk '/http/ {print $NF}')"
+echo -e "\nAPI URL:\n${API_URL}"
+
+# Get the CA certificate
+CA_CERT="$(kubectl get secret $(kubectl get secrets | grep default-token- | awk '{print $1}') -o jsonpath="{['data']['ca\.crt']}" | base64 --decode)"
+echo -e "\nCA Certificate:\n${CA_CERT}"
+
+# Create the service account.
+if ! kubectl get serviceaccounts -n kube-system | grep gitlab-admin  &> /dev/null; then
+    kubectl apply -f gitlab/gitlab-admin-service-account.yaml
+fi
+
+# Get the service token
+TOKEN="$(kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep gitlab-admin | awk '{print $1}') | grep token: | awk '{print $2}')"
+echo -e "\nService Token:\n${TOKEN}"
+
+# Success.
+echo -e "\nAPI URL, CA certificate and Service Token are the values used to add an existing Kubernetes cluster in GitLab 🎉"

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Install jq
+echo -e "\nInstalling jq\n"
+wget -q -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+chmod +x /usr/bin/jq
+
+# Install kubectl
+echo -e "Installing kubectl\n"
+wget -q -P /usr/bin https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+chmod +x /usr/bin/kubectl
+
+# Install doctl
+echo -e "Installing doctl\n"
+export GO111MODULE=on
+go get github.com/digitalocean/doctl/cmd/doctl@v1.32.2
+
+# Initialize doctl
+echo -e "Initializing doctl\n"
+doctl auth init
+
+# Checking account
+echo -e "\nChecking DigitalOcean account\n"
+doctl account get
+
+# Success
+echo -e "Ready to begin!"

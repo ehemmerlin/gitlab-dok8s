@@ -1,0 +1,17 @@
+name: Build
+on: [push]
+
+jobs:
+  setup:
+    name: Build
+    runs-on: ubuntu-18.04
+    container: golang:1.13
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup application
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        run: |
+          script/setup > /dev/null
+          script/up > /dev/null
+          script/down > /dev/null

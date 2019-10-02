@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CLUSTER_NAME="$1"
+
+# Grab the cluster kubeconfig.
+export KUBECONFIG="tmp/${CLUSTER_NAME}-kubeconfig.yaml"
+
+# Delete the service account and cluster role binding.
+kubectl delete clusterrolebinding gitlab-admin
+kubectl delete serviceaccount gitlab-admin -n kube-system
