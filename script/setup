@@ -13,7 +13,7 @@ chmod +x /usr/bin/kubectl
 # Install doctl
 echo -e "Installing doctl\n"
 export GO111MODULE=on
-go get github.com/digitalocean/doctl/cmd/doctl@v1.43.0
+go get github.com/digitalocean/doctl/cmd/doctl@v1.54.0
 
 # Initialize doctl
 echo -e "Initializing doctl\n"

@@ -18,7 +18,7 @@ script/create-cluster ${CLUSTER_NAME}
 export KUBECONFIG="tmp/${CLUSTER_NAME}-kubeconfig.yaml"
 
 # Get the API_URL
-API_URL="$(kubectl cluster-info | grep 'Kubernetes master' | awk '/http/ {print $NF}')"
+API_URL="$(kubectl cluster-info | grep 'Kubernetes control plane' | awk '/http/ {print $NF}')"
 echo -e "\nAPI URL:\n${API_URL}"
 
 # Get the CA certificate
